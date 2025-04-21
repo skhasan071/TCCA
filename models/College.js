@@ -12,7 +12,7 @@ const CollegeSchema = new mongoose.Schema({
     stream: { 
         type: String, 
         required: true, 
-        enum: ["Engineering", "Medical", "Law", "Management", "Graduation"] // ✅ Added "Management"
+        enum: ['Engineering', 'Management', 'Arts', 'Science', 'Law', 'Medical', 'Design', 'Humanities'] // ✅ Added "Management"
     },
     type: { 
         type: String, 

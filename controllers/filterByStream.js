@@ -3,36 +3,33 @@ import College from "../models/College.js";
 // ✅ Filter Colleges by Stream, Country, State, and City
 export const filterCollegesByStream = async (req, res) => {
   try {
-    const { stream, country, state, city } = req.query;
+    let { stream, country, state, city } = req.query;
 
-    // ✅ Ensure `stream` is provided (must come first)
+    // ✅ Ensure `stream` is provided
     if (!stream) {
-      return res.status(400).json({ message: "Stream is required for filtering." });
+      return res.status(400).json({ message: "At least one stream is required for filtering." });
     }
 
+    // ✅ Handle single or multiple stream values
+    const streamArray = Array.isArray(stream) ? stream : [stream];
+
     // ✅ Define valid streams
-    const validStreams = ["Engineering", "Medical", "Law", "Graduation"];
-    if (!validStreams.includes(stream)) {
-      return res.status(400).json({ message: `Invalid stream. Allowed values: ${validStreams.join(", ")}` });
+    const validStreams = ['Engineering', 'Management', 'Arts', 'Science', 'Law', 'Medical', 'Design', 'Humanities'];
+
+    // ✅ Validate streams
+    const invalidStreams = streamArray.filter(s => !validStreams.includes(s));
+    if (invalidStreams.length > 0) {
+      return res.status(400).json({
+        message: `Invalid stream(s): ${invalidStreams.join(", ")}. Allowed values: ${validStreams.join(", ")}`
+      });
     }
 
     // ✅ Build dynamic query object
-    let query = { stream };
+    let query = { stream: { $in: streamArray } };
 
-    // ✅ Allow filtering by country (optional)
-    if (country) {
-      query.country = country;
-    }
-
-    // ✅ Allow filtering by state (optional)
-    if (state) {
-      query.state = state;
-    }
-
-    // ✅ Allow filtering by city (optional)
-    if (city) {
-      query.city = city;
-    }
+    if (country) query.country = country;
+    if (state) query.state = state;
+    if (city) query.city = city;
 
     // ✅ Fetch colleges based on filters
     const colleges = await College.find(query);

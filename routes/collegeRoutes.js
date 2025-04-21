@@ -13,6 +13,7 @@ import { addCampus, getCampusByCollege, updateCampus } from "../controllers/camp
 import { filterCollegesByStream } from "../controllers/filterByStream.js";
 import { filterCollegesByRanking } from "../controllers/filterByRanking.js";
 import { predictColleges } from "../controllers/collegePredictorController.js";
+import {search} from "../controllers/searchController.js";
 
 
 // User Authentication Controllers
@@ -81,6 +82,7 @@ router.put("/campus/update/:campusId", upload.fields([{ name: "photos" }, { name
 // ✅ Filter Routes
 router.get("/filter-by-stream", filterCollegesByStream); // Filter by Stream
 router.get("/filter-by-ranking", filterCollegesByRanking); // Filter by Ranking
+router.get("/search", search);
 
 //predictor route
 router.post("/predict", predictColleges);

@@ -1,5 +1,6 @@
-import Course from "../models/Course.js";
+import Course from "../models/course.js";
 import College from "../models/College.js";
+import mongoose from "mongoose";
 
 // ✅ Add Course API
 export const addCourse = async (req, res) => {
@@ -38,14 +39,19 @@ export const getCoursesByCollege = async (req, res) => {
     try {
         const { collegeId } = req.params;
 
-        // Check if college exists
+        // Check if the collegeId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(collegeId)) {
+            return res.status(400).json({ message: "Invalid College ID" });
+        }
+
+        // Check if the college exists
         const college = await College.findById(collegeId);
         if (!college) {
             return res.status(404).json({ message: "College not found" });
         }
 
-        // Fetch courses
-        const courses = await Course.find({ collegeId });
+        // Fetch courses for the college, ensuring collegeId is cast to ObjectId
+        const courses = await Course.find({ collegeId: collegeId });
 
         if (courses.length === 0) {
             return res.status(404).json({ message: "No courses found for this college." });
@@ -53,9 +59,11 @@ export const getCoursesByCollege = async (req, res) => {
 
         res.status(200).json(courses);
     } catch (error) {
+        console.error(error); // Log error for debugging
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 };
+
 
 // ✅ Update Course API
 export const updateCourse = async (req, res) => {
