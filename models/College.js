@@ -7,6 +7,9 @@ const CollegeSchema = new mongoose.Schema({
     country: { type: String, required: true },
     ranking: { type: Number, required: true },
     brochure: { type: String, required: true },
+    naacGrade: { type: String, required: true },
+    estYear:{type:String,required:true},
+    acceptanceRate:{type: String, required: true},
     image: { type: String, required: true },
     collegeInfo: { type: String, required: true },
     stream: { 

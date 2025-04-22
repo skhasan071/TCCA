@@ -4,13 +4,13 @@ import Placement from "../models/Placement.js";
 // ✅ Add Placement Data
 export const addPlacementData = async (req, res) => {
   try {
-    const { collegeId, salaryRange, studentsPlaced, companiesVisited } =
+    const { collegeId, salaryRange, studentsPlaced, companiesVisited,highestPackage,averagePackage,placementRate,recentPlacements,fiveToTen,tenToFifteen,fifteenToTwenty,aboveTwenty } =
       req.body;
 
-    if (!collegeId || !salaryRange || !studentsPlaced || !companiesVisited) {
+    if (!collegeId || !salaryRange || !studentsPlaced || !companiesVisited || !highestPackage || !averagePackage || !placementRate || !recentPlacements || !fiveToTen || !tenToFifteen || !fifteenToTwenty || !aboveTwenty) {
       return res.status(400).json({
         message:
-          "All fields (collegeId, salaryRange, studentsPlaced, companiesVisited) are required",
+          "All fields (collegeId, salaryRange, studentsPlaced, companiesVisited,highestPackage,averagePackage,placementRate,recentPlacements,fiveToTen,tenToFifteen,fifteenToTwenty,aboveTwenty) are required",
       });
     }
 
@@ -18,7 +18,15 @@ export const addPlacementData = async (req, res) => {
       collegeId,
       salaryRange,
       studentsPlaced,
-      companiesVisited, // ✅ JSON format (Array of Strings)
+      companiesVisited,
+      highestPackage,
+      averagePackage,
+      placementRate,
+      recentPlacements, // ✅ JSON format (Array of Strings)
+      fiveToTen,
+      tenToFifteen,
+      fifteenToTwenty,
+      aboveTwenty
     });
 
     await placement.save();
@@ -54,14 +62,22 @@ export const getPlacementByCollege = async (req, res) => {
 export const updatePlacement = async (req, res) => {
   try {
     const { placementId } = req.params;
-    const { salaryRange, studentsPlaced, companiesVisited } = req.body;
+    const { salaryRange, studentsPlaced, companiesVisited,highestPackage,averagePackage,placementRate,recentPlacements,fiveToTen,tenToFifteen,fifteenToTwenty,aboveTwenty } = req.body;
 
     const updatedPlacement = await Placement.findByIdAndUpdate(
       placementId,
       {
         salaryRange,
         studentsPlaced,
-        companiesVisited, // ✅ JSON format (Array of Strings)
+        companiesVisited,
+        highestPackage,
+        averagePackage,
+        placementRate,
+        recentPlacements, // ✅ JSON format (Array of Strings)
+        fiveToTen,
+        tenToFifteen,
+        fifteenToTwenty,
+        aboveTwenty
       },
       { new: true, runValidators: true }
     );

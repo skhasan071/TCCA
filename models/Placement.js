@@ -18,7 +18,39 @@ const PlacementSchema = new mongoose.Schema(
     companiesVisited: {
       type: [String], // ✅ New field: List of companies that visited
       required: true
-    }
+    },
+    highestPackage: {
+      type: String, // ✅ New field: List of companies that visited
+      required: true
+    },
+    averagePackage: {
+      type: String, // ✅ New field: List of companies that visited
+      required: true
+    },
+    placementRate: {
+      type: String, // ✅ New field: List of companies that visited
+      required: true
+    },
+    recentPlacements: {
+      type: [String], // ✅ New field: List of companies that visited
+      required: true
+    },
+    fiveToTen: {
+      type: String, // ✅ New field: List of companies that visited
+      required: true
+    },
+    tenToFifteen : {
+      type: String, // ✅ New field: List of companies that visited
+      required: true
+    },
+    fifteenToTwenty: {
+      type: String, // ✅ New field: List of companies that visited
+      required: true
+    },
+    aboveTwenty: {
+      type: String, // ✅ New field: List of companies that visited
+      required: true
+    },
   },
   { timestamps: true }
 );

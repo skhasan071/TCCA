@@ -19,6 +19,9 @@ export const addColleges = async (req, res) => {
     const city = body.city;
     const state = body.state;
     const country = body.country;
+    const estYear=body.estYear;
+    const naacGrade=body.naacGrade;
+    const acceptanceRate=body.acceptanceRate;
     const ranking = body.ranking;
     const collegeInfo = body.collegeinfo || body.collegeInfo;
     const stream = body.stream;
@@ -29,9 +32,9 @@ export const addColleges = async (req, res) => {
     const brochure = req.files?.brochure ? req.files.brochure[0].path : null;
 
     // ✅ Validate all required fields
-    if (!name || !state || !city || !ranking || !collegeInfo || !image || !brochure || !stream || !country || !type) {
+    if (!name || !state || !city || !ranking || !collegeInfo || !image || !brochure || !stream || !country || !type || !naacGrade || !acceptanceRate || !estYear) {
       return res.status(400).json({
-        message: "All fields (name, city, state, country, ranking, collegeInfo, image, brochure, stream, type) are required",
+        message: "All fields (name, city, state, country, ranking, collegeInfo, image, brochure, stream, type, estYear, naacGrade, acceptanceRate ) are required",
       });
     }
 
@@ -51,7 +54,10 @@ export const addColleges = async (req, res) => {
       image,
       brochure,
       stream,
-      type // ✅ Added type field
+      type,
+      estYear,
+      naacGrade,
+      acceptanceRate // ✅ Added type field
     });
 
     await newCollege.save();
@@ -105,7 +111,7 @@ export const updateCollege = async (req, res) => {
     // ✅ Update the college (only update provided fields)
     const updatedCollege = await College.findByIdAndUpdate(
       collegeId, 
-      { name, state, city, ranking, collegeInfo, stream, type, ...(image && { image }), ...(brochure && { brochure }) }, 
+      { name, state, city, ranking, collegeInfo, estYear, naacGrade, acceptanceRate, stream, type, ...(image && { image }), ...(brochure && { brochure }) }, 
       { new: true, runValidators: true }
     );
 
