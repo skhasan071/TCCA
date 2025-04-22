@@ -1,6 +1,7 @@
 import College from "../models/College.js";
 
 export const search = async (req, res) => {
+  
   try {
     let { search, stream, country, state } = req.query;
 
