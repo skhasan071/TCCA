@@ -98,16 +98,26 @@ export const cutoffsValidate = (req, res, next) => {
 };
 
 export const scholarshipsValidate = (req, res, next) => {
-  const scholarships = Joi.object({
+  const scholarshipsSchema = Joi.object({
     ScholarshipName: Joi.string().required(),
     ScholarshipMoney: Joi.number().required(),
     ScholarshipDescription: Joi.string().required(),
   });
 
-  const { error } = scholarships.validate(req.body);
+  // Validate the request body: collegeId (string) and scholarships (array of objects)
+  const schema = Joi.object({
+    collegeId: Joi.string().required(),
+    scholarships: Joi.array().items(scholarshipsSchema).min(1).required(), // Array of scholarships
+  });
+
+  const { error } = schema.validate(req.body);
+
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
+
   next();
 };
+
+
 

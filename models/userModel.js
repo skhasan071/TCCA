@@ -34,11 +34,19 @@ const CutoffsSchema = new Schema({
   admissionyear: { type: Number, required: true },
 });
 
-const ScholarshipsSchema = new Schema({
+const scholarshipSchema = new mongoose.Schema({
   ScholarshipName: { type: String, required: true },
   ScholarshipMoney: { type: Number, required: true },
   ScholarshipDescription: { type: String, required: true },
+}, { _id: false }); // Disable _id for embedded scholarships
+
+// Define the schema for the Scholarship collection
+const scholarshipCollectionSchema = new mongoose.Schema({
+  collegeId: { type: mongoose.Schema.Types.ObjectId, ref: "College", required: true },
+  scholarships: [scholarshipSchema],
 });
+
+
 
 const filterbyrank = new mongoose.Schema(
   {
@@ -74,7 +82,7 @@ const CollegeAuthModel = mongoose.model("collegeauth", CollegeAuthSchema);
 const Filterbyrank = mongoose.model("filterbyrank", filterbyrank);
 const ReviewModel = mongoose.model("reviews", ReviewSchema);
 const CutoffModel = mongoose.model("cutoffs", CutoffsSchema);
-const ScholarshipModel = mongoose.model("scholarship", ScholarshipsSchema);
+const ScholarshipModel = mongoose.model("scholarship",scholarshipCollectionSchema);
 
 export default { Filterbyrank };
 // export default ;

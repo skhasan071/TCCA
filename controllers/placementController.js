@@ -4,19 +4,19 @@ import Placement from "../models/Placement.js";
 // ✅ Add Placement Data
 export const addPlacementData = async (req, res) => {
   try {
-    const { collegeId, salaryRange, studentsPlaced, companiesVisited,highestPackage,averagePackage,placementRate,recentPlacements,fiveToTen,tenToFifteen,fifteenToTwenty,aboveTwenty } =
+    const { collegeId, numberOfCompanyVisited, studentsPlaced, companiesVisited,highestPackage,averagePackage,placementRate,recentPlacements,fiveToTen,tenToFifteen,fifteenToTwenty,aboveTwenty } =
       req.body;
 
-    if (!collegeId || !salaryRange || !studentsPlaced || !companiesVisited || !highestPackage || !averagePackage || !placementRate || !recentPlacements || !fiveToTen || !tenToFifteen || !fifteenToTwenty || !aboveTwenty) {
+    if (!collegeId || !numberOfCompanyVisited || !studentsPlaced || !companiesVisited || !highestPackage || !averagePackage || !placementRate || !recentPlacements || !fiveToTen || !tenToFifteen || !fifteenToTwenty || !aboveTwenty) {
       return res.status(400).json({
         message:
-          "All fields (collegeId, salaryRange, studentsPlaced, companiesVisited,highestPackage,averagePackage,placementRate,recentPlacements,fiveToTen,tenToFifteen,fifteenToTwenty,aboveTwenty) are required",
+          "All fields (collegeId,numberOfCompanyVisited, studentsPlaced, companiesVisited,highestPackage,averagePackage,placementRate,recentPlacements,fiveToTen,tenToFifteen,fifteenToTwenty,aboveTwenty) are required",
       });
     }
 
     const placement = new Placement({
       collegeId,
-      salaryRange,
+      numberOfCompanyVisited,
       studentsPlaced,
       companiesVisited,
       highestPackage,
@@ -62,12 +62,12 @@ export const getPlacementByCollege = async (req, res) => {
 export const updatePlacement = async (req, res) => {
   try {
     const { placementId } = req.params;
-    const { salaryRange, studentsPlaced, companiesVisited,highestPackage,averagePackage,placementRate,recentPlacements,fiveToTen,tenToFifteen,fifteenToTwenty,aboveTwenty } = req.body;
+    const { numberOfCompanyVisited, studentsPlaced, companiesVisited,highestPackage,averagePackage,placementRate,recentPlacements,fiveToTen,tenToFifteen,fifteenToTwenty,aboveTwenty } = req.body;
 
     const updatedPlacement = await Placement.findByIdAndUpdate(
       placementId,
       {
-        salaryRange,
+        numberOfCompanyVisited,
         studentsPlaced,
         companiesVisited,
         highestPackage,

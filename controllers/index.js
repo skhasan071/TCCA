@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 import {
   UserModel,
   CollegeAuthModel,
@@ -215,22 +216,50 @@ export const cutoffdetails = async (req, res) => {
 
 export const scholarshipdetails = async (req, res) => {
   try {
-    const { ScholarshipName, ScholarshipMoney, ScholarshipDescription } =
-      req.body;
-    const scholarships = new ScholarshipModel({
-      ScholarshipName,
-      ScholarshipMoney,
-      ScholarshipDescription,
+    const { collegeId, scholarships } = req.body;
+
+    // Basic Validation
+    if (!collegeId) {
+      return res.status(400).json({ message: "collegeId is required" });
+    }
+
+    if (!Array.isArray(scholarships) || scholarships.length === 0) {
+      return res.status(400).json({ message: "scholarships must be a non-empty array" });
+    }
+
+    // Check if scholarships are missing required fields
+    scholarships.forEach((s, index) => {
+      if (!s.ScholarshipName || !s.ScholarshipMoney || !s.ScholarshipDescription) {
+        return res.status(400).json({
+          message: `Scholarship at index ${index} is missing required fields`,
+        });
+      }
     });
-    const savedReview = await scholarships.save();
+
+    // Check if a scholarship document already exists for this college
+    let scholarshipDoc = await ScholarshipModel.findOne({ collegeId });
+
+    if (!scholarshipDoc) {
+      // If no existing scholarship document, create a new one
+      scholarshipDoc = new ScholarshipModel({
+        collegeId,
+        scholarships: scholarships,
+      });
+    } else {
+      // If scholarship document exists, push new scholarships to the array
+      scholarshipDoc.scholarships.push(...scholarships);
+    }
+
+    // Save the scholarship document
+    await scholarshipDoc.save();
+
     return res.status(201).json({
-      message: "Scholarships Added Successfully",
-      review: savedReview,
+      message: "Scholarships added successfully",
+      data: scholarshipDoc,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+    return res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 };
+
 
