@@ -7,7 +7,7 @@ const PlacementSchema = new mongoose.Schema(
       ref: "College",
       required: true
     },
-    salaryRange: {
+    numberOfCompanyVisited: {
       type: String, // Example: "3-5 LPA"
       required: true
     },
@@ -20,15 +20,15 @@ const PlacementSchema = new mongoose.Schema(
       required: true
     },
     highestPackage: {
-      type: String, // ✅ New field: List of companies that visited
+      type: String, 
       required: true
     },
     averagePackage: {
-      type: String, // ✅ New field: List of companies that visited
+      type: String, 
       required: true
     },
     placementRate: {
-      type: String, // ✅ New field: List of companies that visited
+      type: String, 
       required: true
     },
     recentPlacements: {
