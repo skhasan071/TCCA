@@ -23,6 +23,7 @@ import {
   registerCollege,
   loginCollege,
   reviewdetails,
+  getReviews,
   cutoffdetails,
   scholarshipdetails,
 } from "../controllers/index.js";
@@ -94,9 +95,9 @@ router.post("/login", studentLoginValidate, loginUser);
 router.post("/collegeregister", collegeRegisterValidate, registerCollege);
 router.post("/collegelogin", collegeLoginValidate, loginCollege);
 router.post("/reviews", reviewsValidate, reviewdetails);
+router.get("/reviews/getAll/:uid", getReviews);
 router.post("/cutoffs", cutoffsValidate, cutoffdetails);
 router.post("/scholarships", scholarshipsValidate, scholarshipdetails);
-
 
 
 export default router;

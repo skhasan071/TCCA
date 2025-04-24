@@ -64,11 +64,11 @@ export const studentdetailsValidate = (req, res, next) => {
 
 export const reviewsValidate = (req, res, next) => {
   const reviewValidationSchema = Joi.object({
+    uid: Joi.string().required(),
     studentemail: Joi.string().email().required(),
     rating: Joi.number().min(1).max(5).required(),
     reviewtext: Joi.string().required(),
-    pros: Joi.string().optional(),
-    cons: Joi.string().optional(),
+    likes: Joi.number()
   });
   const { error } = reviewValidationSchema.validate(req.body);
 

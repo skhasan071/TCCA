@@ -17,11 +17,11 @@ const CollegeAuthSchema = new Schema({
 });
 
 const ReviewSchema = new Schema({
+  uid: {type: mongoose.Schema.Types.ObjectId, required: true},
   studentemail: { type: String, required: true },
   rating: { type: Number, required: true },
   reviewtext: { type: String, required: true },
-  pros: { type: String, required: true },
-  cons: { type: String, required: true },
+  likes: { type: Number, required: true },
 });
 
 const CutoffsSchema = new Schema({

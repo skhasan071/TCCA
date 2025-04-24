@@ -7,6 +7,7 @@ import {
   CutoffModel,
   ScholarshipModel,
 } from "../models/userModel.js";
+import mongoose, { Mongoose } from "mongoose";
 //register user api
 export const registerUser = async (req, res) => {
   const userModel = new UserModel(req.body);
@@ -139,14 +140,16 @@ export const loginCollege = async (req, res) => {
 
 export const reviewdetails = async (req, res) => {
   try {
-    const { studentemail, rating, reviewtext, pros, cons } = req.body;
+    const { uid, studentemail, rating, reviewtext, likes } = req.body;
+    const id = new mongoose.Types.ObjectId(uid);
     const review = new ReviewModel({
+      uid: id,
       studentemail,
       rating,
       reviewtext,
-      pros,
-      cons,
+      likes,
     });
+
     const savedReview = await review.save();
 
     res.status(201).json({
@@ -159,6 +162,24 @@ export const reviewdetails = async (req, res) => {
       .json({ message: "Internal Server Error", error: error.message });
   }
 };
+
+export const getReviews = async (req, res) => {
+  try{
+
+    const {uid} = req.params;
+
+    const reviews = await ReviewModel.find({uid});
+
+    if(!reviews) return res.status(404).json({err: "No reviews found"});
+
+    res.status(200).json(reviews);
+
+  }catch(err){
+
+    res.status(500).json({err: `Server Error : ${err.message}`});
+
+  }
+}
 
 export const cutoffdetails = async (req, res) => {
   try {
