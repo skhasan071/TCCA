@@ -1,35 +1,35 @@
-import AdmissionProcess from "../models/AdmissionProcess.js";
+import AdmissionProcess from "../models/admissionProcess.js";
 
 // ✅ Add Admission Process
 export const addAdmissionProcess = async (req, res) => {
   try {
     const {
       collegeId,
-      admissionCriteria,
+      requiredExams,
       applicationProcess,
-      importantDates,
+      startDate,
+      endDate,
       documentsRequired,
-      selectionProcess,
     } = req.body;
 
     if (
       !collegeId ||
-      !admissionCriteria ||
+      !requiredExams ||
       !applicationProcess ||
-      !importantDates ||
-      !documentsRequired ||
-      !selectionProcess
+      !startDate ||
+      !endDate ||
+      !documentsRequired 
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const admissionProcess = new AdmissionProcess({
       collegeId,
-      admissionCriteria,
+      requiredExams,
       applicationProcess,
-      importantDates,
+      startDate,
+      endDate,
       documentsRequired,
-      selectionProcess,
     });
 
     await admissionProcess.save();
@@ -65,21 +65,22 @@ export const updateAdmissionProcess = async (req, res) => {
   try {
     const { admissionProcessId } = req.params;
     const {
-      admissionCriteria,
+      requiredExams,
       applicationProcess,
-      importantDates,
+      startDate,
+      endDate,
       documentsRequired,
-      selectionProcess,
     } = req.body;
 
     const updatedAdmissionProcess = await AdmissionProcess.findByIdAndUpdate(
       admissionProcessId,
       {
-        admissionCriteria,
+        collegeId,
+        requiredExams,
         applicationProcess,
-        importantDates,
+        startDate,
+        endDate,
         documentsRequired,
-        selectionProcess,
       },
       { new: true, runValidators: true }
     );

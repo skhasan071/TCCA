@@ -7,28 +7,28 @@ const AdmissionProcessSchema = new mongoose.Schema(
             ref: "College",
             required: true
         },
-        admissionCriteria: {
-            type: String,
+       requiredExams: {
+            type: [String],
             required: true
         },
         applicationProcess: {
             type: String,
             required: true
         },
-        importantDates: {
+        startDate: {
+            type: String,
+            required: true
+        },
+        endDate: {
             type: String,
             required: true
         },
         documentsRequired: {
             type: [String], 
-      required: true
-        },
-        selectionProcess: {
-            type: String,
             required: true
-        }
+        },
+    
     },
-    { timestamps: true }
 );
 
 const AdmissionProcess = mongoose.model("AdmissionProcess", AdmissionProcessSchema);
