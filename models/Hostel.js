@@ -11,12 +11,16 @@ const HostelSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    amenities: {
+    hostelAmenities: {
       type: [String],
       required: true
     },
-    seats: {
-      type: Number,
+    campusAmenities:{
+      type:[String],
+      required:true
+    },
+    hostelInfo: {
+      type: String,
       required: true
     },
     photos: {

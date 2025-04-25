@@ -9,18 +9,10 @@ export const addHostel = async (req, res) => {
     console.log("==== Incoming Request Files ====");
     console.log(req.files);
 
-    const { collegeId, hostelName, amenities, seats } = req.body;
+    const { collegeId, hostelName, hostelAmenities, hostelInfo,campusAmenities } = req.body;
 
-    if (!collegeId || !hostelName || !amenities || !seats) {
-      return res.status(400).json({ message: "All fields (collegeId, hostelName, amenities, seats) are required" });
-    }
-
-    // ✅ Parse amenities (handle both JSON and string)
-    let amenitiesArray;
-    try {
-      amenitiesArray = JSON.parse(amenities);
-    } catch (error) {
-      amenitiesArray = amenities.split(",");
+    if (!collegeId || !hostelName || !hostelAmenities|| !campusAmenities || !hostelInfo) {
+      return res.status(400).json({ message: "All fields (collegeId, hostelName,hostelAmenities, hostelInfo,campusAmenities) are required" });
     }
 
     // ✅ Extract Cloudinary URLs from Uploaded Files
@@ -30,8 +22,9 @@ export const addHostel = async (req, res) => {
     const hostel = new Hostel({
       collegeId,
       hostelName,
-      amenities: amenitiesArray,
-      seats: Number(seats),
+      hostelAmenities,
+      campusAmenities,
+      hostelInfo,
       photos,
       videos
     });
@@ -65,13 +58,13 @@ export const getHostelByCollege = async (req, res) => {
 export const updateHostel = async (req, res) => {
   try {
     const { hostelId } = req.params;
-    const { hostelName, amenities, seats } = req.body;
+    const { hostelName, hostelAmenities, campusAmenities,hostelInfo } = req.body;
     const photos = req.files?.photos ? req.files.photos.map(file => file.path) : [];
     const videos = req.files?.videos ? req.files.videos.map(file => file.path) : [];
 
     const updatedHostel = await Hostel.findByIdAndUpdate(
       hostelId,
-      { hostelName, amenities, seats, $push: { photos: { $each: photos }, videos: { $each: videos } } },
+      { hostelName, hostelAmenities, campusAmenities,hostelInfo, $push: { photos: { $each: photos }, videos: { $each: videos } } },
       { new: true, runValidators: true }
     );
 
