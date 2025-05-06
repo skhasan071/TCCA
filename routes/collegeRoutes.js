@@ -12,9 +12,8 @@ import { addHostel, getHostelByCollege, updateHostel } from "../controllers/host
 import { addCampus, getCampusByCollege, updateCampus } from "../controllers/campusController.js";
 import { filterCollegesByStream } from "../controllers/filterByStream.js";
 import { filterCollegesByRanking } from "../controllers/filterByRanking.js";
-import { predictColleges } from "../controllers/collegePredictorController.js";
+import { predictColleges } from "../controllers/collegePredictor.js";
 import {search} from "../controllers/searchController.js";
-
 
 // User Authentication Controllers
 import {
@@ -45,6 +44,7 @@ const router = express.Router();
 router.post("/add", upload.fields([{ name: "image" }, { name: "brochure" }]), validateCollege, addColleges);
 router.get("/all", getColleges);
 router.put("/update/:collegeId", updateCollege);
+router.post("/predict", predictColleges);
 
 //filter
 router.post("/filter", filterColleges);

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import College from "../models/College.js";
 import Course from "../models/course.js";
-
+                                                                 
 // ✅ Add College with Type (Private/Government)
 export const addColleges = async (req, res) => {
   try {
@@ -22,6 +22,7 @@ export const addColleges = async (req, res) => {
     const estYear=body.estYear;
     const lat=body.lat;
     const long=body.long;
+    const feeRange=body.feeRange;
     const naacGrade=body.naacGrade;
     const acceptanceRate=body.acceptanceRate;
     const ranking = body.ranking;
@@ -34,9 +35,9 @@ export const addColleges = async (req, res) => {
     const brochure = req.files?.brochure ? req.files.brochure[0].path : null;
 
     // ✅ Validate all required fields
-    if (!name || !state || !city || !ranking || !collegeInfo || !image || !lat || !long ||!brochure || !stream || !country || !type || !naacGrade || !acceptanceRate || !estYear) {
+    if (!name || !state || !city || !ranking || !feeRange || !collegeInfo || !image || !lat || !long ||!brochure || !stream || !country || !type || !naacGrade || !acceptanceRate || !estYear) {
       return res.status(400).json({
-        message: "All fields (name, city, state, country, ranking, collegeInfo, image, brochure,lat,long, stream, type, estYear, naacGrade, acceptanceRate ) are required",
+        message: "All fields (name, city, state, country,feeRange, ranking, collegeInfo, image, brochure,lat,long, stream, type, estYear, naacGrade, acceptanceRate ) are required",
       });
     }
 
@@ -56,6 +57,7 @@ export const addColleges = async (req, res) => {
       image,
       brochure,
       stream,
+      feeRange,
       lat,
       long,
       type,
@@ -101,7 +103,7 @@ export const updateCollege = async (req, res) => {
       return res.status(400).json({ message: "Invalid College ID format" });
     }
 
-    const { name, city, state, country, ranking, collegeInfo, stream, type,lat,long } = req.body;
+    const { name, city, state, country,feeRange, ranking, collegeInfo, stream, type,lat,long } = req.body;
 
     // ✅ Validate type (if provided)
     if (type && !["Private", "Government"].includes(type)) {
@@ -115,7 +117,7 @@ export const updateCollege = async (req, res) => {
     // ✅ Update the college (only update provided fields)
     const updatedCollege = await College.findByIdAndUpdate(
       collegeId, 
-      { name, state, city, ranking, collegeInfo, lat,long,estYear, naacGrade, acceptanceRate, stream, type, ...(image && { image }), ...(brochure && { brochure }) }, 
+      { name, state, city, ranking,feeRange, collegeInfo, lat,long,estYear, naacGrade, acceptanceRate, stream, type, ...(image && { image }), ...(brochure && { brochure }) }, 
       { new: true, runValidators: true }
     );
 

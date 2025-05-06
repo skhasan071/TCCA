@@ -1,5 +1,4 @@
 import Placement from "../models/Placement.js";
-
 // ✅ Add Placement Data
 // ✅ Add Placement Data
 export const addPlacementData = async (req, res) => {

@@ -8,7 +8,6 @@ import jwt from "jsonwebtoken";
 const getUserFromToken = (req) => {
     const authHeader = req.headers["authorization"];
     if (!authHeader || !authHeader.startsWith("Bearer ")) return null;
-
     const token = authHeader.split(" ")[1]; // This removes the "Bearer " part
     try {
         return jwt.verify(token, process.env.SECRET);
