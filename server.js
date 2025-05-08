@@ -10,7 +10,7 @@ import Student from "./models/studentModel.js";
 import Blog from "./models/blogs.js";
 // In your index.js (or the main server file)
 import { ScholarshipModel } from './models/userModel.js'; // Ensure correct path
-
+import eligibilityRoutes from "./routes/eligibility.js";
 
 
 dotenv.config();
@@ -27,6 +27,8 @@ app.use(cors());
 // ✅ Routes
 app.use("/api/colleges", collegeRoutes);
 app.use("/api/students", studentRoutes); // ✅ Use student routes
+app.use("/api", eligibilityRoutes);
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
@@ -75,7 +77,7 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   
     try {
       await Tclient.messages.create({
-        body: "Your OTP is ${otp}",
+        body: `Your OTP is ${otp}`,
         from: process.env.TWILIO_PHONE_NUMBER,
         to: phone,
       });

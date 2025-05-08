@@ -14,6 +14,10 @@ import { filterCollegesByStream } from "../controllers/filterByStream.js";
 import { filterCollegesByRanking } from "../controllers/filterByRanking.js";
 import { predictColleges } from "../controllers/collegePredictor.js";
 import {search} from "../controllers/searchController.js";
+import { addOrUpdateEligibility, getEligibility } from "../controllers/eligibilityController.js";
+
+
+
 
 // User Authentication Controllers
 import {
@@ -45,6 +49,8 @@ router.post("/add", upload.fields([{ name: "image" }, { name: "brochure" }]), va
 router.get("/all", getColleges);
 router.put("/update/:collegeId", updateCollege);
 router.post("/predict", predictColleges);
+router.post("/eligibility", addOrUpdateEligibility);
+router.get("/eligibility/:collegeId", getEligibility);
 
 //filter
 router.post("/filter", filterColleges);
